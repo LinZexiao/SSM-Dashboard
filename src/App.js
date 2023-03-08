@@ -19,8 +19,8 @@ function App() {
         <Header className='App-header' style={{ paddingInline: '15px' }} >
           <AppHeader />
         </Header>
-        <Content className='App-content' >
-          <Space direction='vertical' size={'large'}>
+        <Content className='App-content' style={{ backgroundColor: '#f0f2f5', padding: '20px' }} >
+          <Space style={{ width: '100%' }} direction='vertical' size={'large'}>
             <Summary />
             <div>
               消息列表

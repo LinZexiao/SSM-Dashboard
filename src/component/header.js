@@ -16,7 +16,7 @@ export default function Header(props) {
                     <Search style={{ verticalAlign: 'middle' }} className='App-search' placeholder='enter cid or address' width={400} allowClear />
                 </Col>
                 <Col offset={1} span={2} >
-                    <Select size='small' defaultValue={"zhCN"} options={[{ label: 'zhCN', value: 'zhCN' }, { label: 'enUS', value: 'enUS' }]} />
+                    <Select size='small' defaultValue={"en"} options={[{ label: 'zh', value: 'zhCN' }, { label: 'en', value: 'enUS' }]} />
                 </Col>
             </Row>
         </div>
