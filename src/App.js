@@ -1,24 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
+import { Layout, Space, Modal } from 'antd';
+import AppHeader from './component/header';
+import Summary from './component/summary';
+
+
+const { Header, Footer, Content } = Layout;
+
+
+
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className="App" style={{
+      height: '100vh',
+    }}>
+      <Layout style={{ minHeight: '100%', direction: "ltr" }}>
+        <Header className='App-header' style={{ paddingInline: '15px' }} >
+          <AppHeader />
+        </Header>
+        <Content className='App-content' >
+          <Space direction='vertical' size={'large'}>
+            <Summary />
+            <div>
+              消息列表
+            </div>
+            <div>
+              Thread 列表
+            </div>
+            <div>
+              订单列表
+            </div>
+          </Space>
+
+        </Content>
+        <Footer className='App-footer' >Footer</Footer>
+      </Layout>
+      end
+    </div >
   );
 }
 
