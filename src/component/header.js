@@ -1,4 +1,4 @@
-import logo from './../asset/venus-hero-logo.png'
+import logo from '@/asset/venus-hero-logo.png'
 import { Col, Row, Select, Input } from 'antd';
 const Search = Input.Search
 
