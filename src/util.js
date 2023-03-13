@@ -22,3 +22,9 @@ export function PowerInShort(power) {
     }
     return `${Number(power).toFixed(2)} ${powerPrefix[i]}iB`
 }
+
+
+export function stateString(num) {
+    const state = ["UnKnown", "UnFillMsg", "FillMsg", "OnChainMsg", "Failed", "NonceConflictMsg"]
+    return state[num]
+}

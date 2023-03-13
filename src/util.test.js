@@ -22,3 +22,12 @@ test('test PowerInShort ', () => {
     res = PowerInShort(1024 * 1024 * 1024 * 1024 * 1024 * 1024);
     expect(res).toBe('1.00 EiB');
 });
+
+
+test("date transfer", () => {
+    let a = new Date("2023-02-23 06:53:20")
+    let b = new Date("2023-02-22 06:53:20")
+    console.log(a, b);
+    console.log(a > b);
+    expect(a > b).toBe(true)
+})

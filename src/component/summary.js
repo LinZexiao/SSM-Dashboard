@@ -193,7 +193,7 @@ export default function Summary(props) {
                         <Statistic title="Gas Used" value={`${gasUsed} aFIL/24h`} />
                     </Col>
                     <Col span={6}>
-                        <Statistic title="Win Count" value={`${winCount} /Week`} />
+                        <Statistic title="Win Count" value={`${winCount} /week`} />
                     </Col>
                     <Col span={6}>
                         <Statistic title="Miner Collateral" value={shortFil(minerCollateral)} />
@@ -210,6 +210,6 @@ export default function Summary(props) {
 
 const tittle = (
     <div style={{ textAlign: 'left' }}>
-        <h2 >Summary</h2>
+        <span className="card-tittle">Summary</span>
     </div>
 )

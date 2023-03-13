@@ -5,7 +5,7 @@ import store from './store';
 function InertiaProvider(props) {
     const locale = useSelector(state => state.locale.value);
     return (
-        <ConfigProvider locale={locale} >
+        <ConfigProvider locale={locale} componentSize={'small'}>
             {props.children}
         </ConfigProvider>
     )
