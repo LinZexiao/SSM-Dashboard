@@ -1,5 +1,5 @@
 import { Card, Col, Empty, Row, Select, Table, Popover, Space, Button, Descriptions } from "antd"
-import { CheckCircleFilled, QuestionCircleFilled, ClockCircleFilled, CloseCircleFilled, ExclamationCircleFilled, InfoCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, QuestionCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, ExclamationCircleOutlined, InfoCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState } from "react"
 import { stateString } from "../util"
 import { getDefaultFilters } from "./util";
@@ -12,7 +12,7 @@ export default function MessageList() {
     const ret = function (content) {
         const tittle = (
             <div style={{ textAlign: 'left' }}>
-                <span className="card-tittle">Message List</span>
+                <span className="card-tittle">Messages</span>
             </div>
         )
 
@@ -29,6 +29,7 @@ export default function MessageList() {
         )
     }
 
+    // init wallet selector
     let walletInit = ''
     let walletOps = []
     const wallets = Object.keys(msgList)
@@ -39,15 +40,13 @@ export default function MessageList() {
         }
     }
     const [wallet, setWallet] = useState(walletInit)
-
     if (wallets.length < 0) {
         return ret(<Empty description='no wallet config'></Empty>)
     }
 
-    const msgs = msgList[wallet]
-    // preproccess data
-    // const data = msgList
 
+    // preproccess data
+    const msgs = msgList[wallet]
     // pre set order
     msgs.sort(sortState)
 
@@ -119,8 +118,6 @@ export default function MessageList() {
                         <a href={`#/message/markbad/${selectedRowKeys.join(',')}`}><DeleteOutlined /> mark bad</a>
                     </Col>
                 </Row>
-
-
             )
         } else {
             return null
@@ -132,7 +129,7 @@ export default function MessageList() {
             <div style={{ textAlign: 'left' }}>
                 Wallet Address: <Select defaultValue={wallet} options={walletOps} bordered={false} onChange={setWallet} />
             </div>
-            <Table rowSelection={rowSelection} columns={columns} rowKey='id' dataSource={msgs} footer={footer} />
+            <Table rowSelection={rowSelection} columns={columns} rowKey='id' dataSource={msgs} footer={footer} pagination={false} />
         </>
     )
 
@@ -193,17 +190,17 @@ const renderState = function (record) {
             // UnFillMsg
             if (record.exitCode === 0) {
                 return (<Popover content={'UnFillMsg'} >
-                    <ClockCircleFilled style={{ color: 'darkOrange' }} />
+                    <ClockCircleOutlined style={{ color: 'darkOrange' }} />
                 </Popover>)
             } else {
                 return (<Popover overlayStyle={{ width: '50%' }} content={record.errInfo} title="UnFillMsg">
-                    <ExclamationCircleFilled style={{ color: 'darkOrange' }} />
+                    <ExclamationCircleOutlined style={{ color: 'darkOrange' }} />
                 </Popover>)
             }
         case 2:
             // FillMsg
             return (<Popover content={'FillMsg'} >
-                <ClockCircleFilled style={{ color: 'darkblue' }} />
+                <ClockCircleOutlined style={{ color: 'darkblue' }} />
             </Popover>)
 
         case 3:
@@ -211,28 +208,28 @@ const renderState = function (record) {
             if (record.exitCode === 0) {
                 // exec success
                 return (<Popover content={'OnChainMsg'} >
-                    <CheckCircleFilled style={{ color: 'darkgreen' }} />
+                    <CheckCircleOutlined style={{ color: 'darkgreen' }} />
                 </Popover>)
             } else {
                 return (<Popover content={`OnChainMsg (exit:${record.exitCode})`} >
-                    <ExclamationCircleFilled style={{ color: 'darkgreen' }} />
+                    <ExclamationCircleOutlined style={{ color: 'darkgreen' }} />
                 </Popover>)
             }
         case 4:
             // FailedMsg
             return (<Popover content={`FailedMsg (exit:${record.exitCode})`} >
-                <CloseCircleFilled style={{ color: 'darkred' }} />
+                <CloseCircleOutlined style={{ color: 'darkred' }} />
             </Popover>)
         case 5:
             // NonceConflictMsg
             return (<Popover content={'NonceConflictMsg'} >
-                <ExclamationCircleFilled style={{ color: 'darkred' }} />
+                <ExclamationCircleOutlined style={{ color: 'darkred' }} />
             </Popover>)
         case 0:
         default:
             // UnKnown
             return (<Popover content='UnKnownState' >
-                <QuestionCircleFilled style={{ color: 'darkgrey' }} />
+                <QuestionCircleOutlined style={{ color: 'darkgrey' }} />
             </Popover>)
     }
 }
@@ -240,7 +237,7 @@ const renderState = function (record) {
 const renderOperate = function (record) {
     const extraInfo = (<>
         <div>
-            <Descriptions title='extra info' >
+            <Descriptions title='extra info' bordered column={1} >
                 <Descriptions.Item label="to">{record.to}</Descriptions.Item>
             </Descriptions>
             {/* <span style={{ marginRight: '5px' }}>to:</span>

@@ -1,5 +1,6 @@
 import logo from '@/asset/venus-hero-logo.png'
 import { Col, Row, Select, Input, Affix } from 'antd';
+import { useState } from 'react';
 const Search = Input.Search
 
 const tittleStyle = {
@@ -11,6 +12,16 @@ const tittleStyle = {
 }
 
 export default function Header(props) {
+    const [affixed, setAffixed] = useState(false)
+
+    const searchStyle = {
+        verticalAlign: 'middle',
+    }
+
+    if (affixed) {
+        searchStyle["backgroundColor"] = '#eaeaee'
+        searchStyle["boxShadow"] = 'rgb(50 50 93 / 25%) 0px 6px 12px -2px, rgb(0 0 0 / 30%) 0px 3px 7px -3px'
+    }
 
     return (
         <div>
@@ -24,8 +35,8 @@ export default function Header(props) {
                     <div style={tittleStyle}>SSM</div>
                 </Col>
                 <Col offset={2} span={12} >
-                    <Affix offsetTop={0}>
-                        <Search style={{ verticalAlign: 'middle', backgroundColor: '#eaeaee', boxShadow: 'rgb(50 50 93 / 25%) 0px 6px 12px -2px, rgb(0 0 0 / 30%) 0px 3px 7px -3px' }} size='middle' className='App-search' placeholder='enter cid or address' width={400} allowClear />
+                    <Affix offsetTop={0} onChange={setAffixed}>
+                        <Search style={searchStyle} size='middle' className='App-search' placeholder='enter cid or address' width={400} allowClear />
                     </Affix>
                 </Col>
                 <Col offset={4} span={2} >

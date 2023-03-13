@@ -3,6 +3,7 @@ import { Layout, Space, Modal } from 'antd';
 import AppHeader from './component/header';
 import Summary from './component/summary';
 import MsgList from './component/msgList';
+import SealingThreadList from './component/sealingThreadList';
 
 
 const { Header, Footer, Content } = Layout;
@@ -24,9 +25,7 @@ function App() {
           <Space style={{ width: '100%' }} direction='vertical' size={'large'}>
             <Summary />
             <MsgList />
-            <div>
-              Thread 列表
-            </div>
+            <SealingThreadList />
             <div>
               订单列表
             </div>
@@ -35,7 +34,6 @@ function App() {
         </Content>
         <Footer className='App-footer' >Footer</Footer>
       </Layout>
-      end
     </div >
   );
 }
