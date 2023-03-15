@@ -1,6 +1,84 @@
 import { FilInShort, PowerInShort } from "@/util"
-import { Card, Row, Col, Statistic } from "antd"
+import { Row, Col, Statistic } from "antd"
+import Card from "./card"
 
+
+
+const shortFil = FilInShort
+const shortPower = PowerInShort
+
+export default function Summary(props) {
+
+
+    let availBalance = 0
+    let totalQualityAdjPower = 0
+    let totalRawBytePower = 0
+
+    let minerCollateral = 0
+    let marketCollateral = 0
+
+    let winCount = 0
+    let gasUsed = 0
+
+
+
+    // miner calculation
+    for (let miner in minerList) {
+        availBalance += minerList[miner].AvailBalance
+        availBalance += minerList[miner].MarketBalance.Available
+
+        minerCollateral += minerList[miner].LockFunds.InitialPledge
+        minerCollateral += minerList[miner].LockFunds.PreCommitDeposits
+        minerCollateral += minerList[miner].LockFunds.VestingFunds
+        marketCollateral += minerList[miner].MarketBalance.Locked
+
+        totalQualityAdjPower += minerList[miner].MinerPower.QualityAdjPower
+        totalRawBytePower += minerList[miner].MinerPower.RawBytePower
+    }
+
+    // wallet calculation
+    for (let wallet of walletList) {
+        availBalance += wallet.balance
+    }
+
+
+    return (
+        <div>
+            <Card
+                title={"Summary"}
+            >
+                <Row gutter={16}>
+                    <Col span={6}>
+                        <Statistic title="Available Balance" value={shortFil(availBalance)} />
+                    </Col>
+                    <Col span={6}>
+                        <Statistic title="Total Collateral" value={shortFil(minerCollateral + marketCollateral)} />
+                    </Col>
+                    <Col span={6}>
+                        <Statistic title="Raw Byte Power" value={shortPower(totalRawBytePower)} />
+                    </Col>
+                    <Col span={6}>
+                        <Statistic title="Quality Adjust Power" value={shortPower(totalQualityAdjPower)} />
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col span={6}>
+                        <Statistic title="Gas Used" value={`${gasUsed} aFIL/24h`} />
+                    </Col>
+                    <Col span={6}>
+                        <Statistic title="Win Count" value={`${winCount} /week`} />
+                    </Col>
+                    <Col span={6}>
+                        <Statistic title="Miner Collateral" value={shortFil(minerCollateral)} />
+                    </Col>
+                    <Col span={6}>
+                        <Statistic title="Market Collateral" value={shortFil(marketCollateral)} />
+                    </Col>
+                </Row>
+            </Card>
+        </div>
+    )
+}
 
 
 // wallet list
@@ -128,88 +206,3 @@ const minerList = {
         },
     },
 }
-
-const shortFil = FilInShort
-const shortPower = PowerInShort
-
-export default function Summary(props) {
-
-
-    let availBalance = 0
-    let totalQualityAdjPower = 0
-    let totalRawBytePower = 0
-
-    let minerCollateral = 0
-    let marketCollateral = 0
-
-    let winCount = 0
-    let gasUsed = 0
-
-
-
-    // miner calculation
-    for (let miner in minerList) {
-        availBalance += minerList[miner].AvailBalance
-        availBalance += minerList[miner].MarketBalance.Available
-
-        minerCollateral += minerList[miner].LockFunds.InitialPledge
-        minerCollateral += minerList[miner].LockFunds.PreCommitDeposits
-        minerCollateral += minerList[miner].LockFunds.VestingFunds
-        marketCollateral += minerList[miner].MarketBalance.Locked
-
-        totalQualityAdjPower += minerList[miner].MinerPower.QualityAdjPower
-        totalRawBytePower += minerList[miner].MinerPower.RawBytePower
-    }
-
-    // wallet calculation
-    for (let wallet of walletList) {
-        availBalance += wallet.balance
-    }
-
-
-    return (
-        <div>
-            <Card
-                title={tittle}
-                bordered={false}
-                size="large"
-            >
-                <Row gutter={16}>
-                    <Col span={6}>
-                        <Statistic title="Available Balance" value={shortFil(availBalance)} />
-                    </Col>
-                    <Col span={6}>
-                        <Statistic title="Total Collateral" value={shortFil(minerCollateral + marketCollateral)} />
-                    </Col>
-                    <Col span={6}>
-                        <Statistic title="Raw Byte Power" value={shortPower(totalRawBytePower)} />
-                    </Col>
-                    <Col span={6}>
-                        <Statistic title="Quality Adjust Power" value={shortPower(totalQualityAdjPower)} />
-                    </Col>
-                </Row>
-                <Row gutter={16}>
-                    <Col span={6}>
-                        <Statistic title="Gas Used" value={`${gasUsed} aFIL/24h`} />
-                    </Col>
-                    <Col span={6}>
-                        <Statistic title="Win Count" value={`${winCount} /week`} />
-                    </Col>
-                    <Col span={6}>
-                        <Statistic title="Miner Collateral" value={shortFil(minerCollateral)} />
-                    </Col>
-                    <Col span={6}>
-                        <Statistic title="Market Collateral" value={shortFil(marketCollateral)} />
-                    </Col>
-                </Row>
-            </Card>
-        </div>
-    )
-}
-
-
-const tittle = (
-    <div style={{ textAlign: 'left' }}>
-        <span className="card-tittle">Summary</span>
-    </div>
-)

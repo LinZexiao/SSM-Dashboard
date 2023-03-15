@@ -1,23 +1,18 @@
-import { Card, Col, Empty, Row, Select, Table, Popover, Space, Button, Descriptions } from "antd"
-import { CheckCircleFilled, QuestionCircleFilled, ClockCircleFilled, CloseCircleFilled, ExclamationCircleFilled, InfoCircleOutlined, DeleteOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { Col, Empty, Row, Select, Table, Popover, Space, Button, Descriptions } from "antd"
+import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { useState } from "react"
-import { getDefaultFilters } from "./util";
+import { Copyable, getDefaultFilters } from "./util";
+import Card from "./card";
 
 export default function SealingThreadList({ threads }) {
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
     const ret = function (content) {
-        const tittle = (
-            <div style={{ textAlign: 'left' }}>
-                <span className="card-tittle">Sealing Threads</span>
-            </div>
-        )
+
         return (
             <div>
                 <Card
-                    title={tittle}
-                    bordered={false}
-                    size="large"
+                    title={'Sealing Threads'}
                 >
                     {content}
                 </Card>
@@ -36,6 +31,7 @@ export default function SealingThreadList({ threads }) {
             const thread = wokerThreads[j]
             thread["wokerName"] = wokerName
             thread["wokerInfo"] = woker
+            thread['Dest'] = woker.Dest
             data.push(thread)
         }
     }
@@ -69,13 +65,15 @@ export default function SealingThreadList({ threads }) {
             dataIndex: 'State',
             filters: getDefaultFilters(data, record => record.State),
             onFilter: (value, record) => record.State === value,
+        },
+        {
+            title: 'Dest',
+            dataIndex: 'Dest',
+            render: text => (<Copyable text={text} />)
         }, {
             title: 'Loccation',
             dataIndex: 'Loccation',
-        },
-        {
-            title: 'PausedElapsed',
-            dataIndex: 'PausedElapsed',
+            render: text => (<Copyable >{text}</Copyable>)
         },
         {
             key: 'operate',
@@ -156,12 +154,13 @@ const renderOperate = (record) => {
         const errInfo = (<>
             <div>
                 <Descriptions title='Error Info' bordered column={1} >
+                    <Descriptions.Item label="paused elapsed">{record.PausedElapsed}</Descriptions.Item>
                     <Descriptions.Item label="last error">{record.LastErr}</Descriptions.Item>
                 </Descriptions>
             </div>
         </>)
         return (
-            <Popover overlayStyle={{ maxWidth: '50rem' }} content={errInfo}>
+            <Popover overlayStyle={{ maxWidth: '80%' }} content={errInfo}>
                 <a href={`#/message/${record.id}`}><PlayCircleOutlined style={{ color: 'darkred' }} /></a>
             </Popover>
         )

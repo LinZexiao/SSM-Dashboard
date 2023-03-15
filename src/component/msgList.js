@@ -1,8 +1,9 @@
-import { Card, Col, Empty, Row, Select, Table, Popover, Space, Button, Descriptions } from "antd"
+import { Col, Empty, Row, Select, Table, Popover, Space, Button, Descriptions } from "antd"
 import { CheckCircleOutlined, QuestionCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, ExclamationCircleOutlined, InfoCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState } from "react"
 import { stateString } from "../util"
-import { getDefaultFilters } from "./util";
+import { getDefaultFilters, InShort } from "./util";
+import Card from "./card";
 
 
 export default function MessageList() {
@@ -10,22 +11,10 @@ export default function MessageList() {
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
     const ret = function (content) {
-        const tittle = (
-            <div style={{ textAlign: 'left' }}>
-                <span className="card-tittle">Messages</span>
-            </div>
-        )
-
         return (
-            <div>
-                <Card
-                    title={tittle}
-                    bordered={false}
-                    size="large"
-                >
-                    {content}
-                </Card>
-            </div>
+            <Card title='Messages' >
+                {content}
+            </Card>
         )
     }
 
@@ -54,6 +43,7 @@ export default function MessageList() {
         {
             title: 'id',
             dataIndex: 'id',
+            render: text => (<InShort text={text} />),
         },
         {
             title: 'method',
@@ -64,6 +54,13 @@ export default function MessageList() {
         {
             title: 'value',
             dataIndex: 'value',
+        },
+        {
+            title: 'to',
+            dataIndex: 'to',
+            filters: getDefaultFilters(msgs, (msg) => msg.to),
+            onFilter: (value, record) => record.to === value,
+            render: text => (<InShort text={text} />),
         },
         {
             title: 'gasLimit',
@@ -85,14 +82,14 @@ export default function MessageList() {
             onFilter: (value, record) => record.state === value,
         },
         {
+            title: 'nonce',
+            dataIndex: 'nonce',
+        },
+        {
             title: 'time',
             dataIndex: 'time',
             sorter: sortTimeStr,
         },
-        {
-            key: 'operate',
-            render: (_, record) => renderOperate(record),
-        }
     ]
 
     const onSelectChange = (newSelectedRowKeys) => {
@@ -234,27 +231,6 @@ const renderState = function (record) {
     }
 }
 
-const renderOperate = function (record) {
-    const extraInfo = (<>
-        <div>
-            <Descriptions title='extra info' bordered column={1} >
-                <Descriptions.Item label="to">{record.to}</Descriptions.Item>
-            </Descriptions>
-            {/* <span style={{ marginRight: '5px' }}>to:</span>
-            <span>{record.to}</span> */}
-        </div>
-    </>)
-    return (
-        <>
-            <Popover overlayStyle={{ maxWidth: '50rem' }} content={extraInfo}>
-                <a href={`#/message/${record.id}`}><InfoCircleOutlined /></a>
-            </Popover>
-        </>
-    )
-}
-
-
-
 // message 
 const msgList = {
     'f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark2q': [
@@ -377,8 +353,131 @@ const msgList = {
             exitCode: -1,
             errInfo: "gas estimate: estimating gas limit: message execution failed: exit SysErrInsufficientFunds(6), reason: message failed with backtrace: --> caused by: send:: send-- sender does not have funds to transfer(balance 899.99999926389071059, transfer 10000.0)(5: insufficient funds) (RetCode = 6)",
             time: "2023-03-03 02:47:07",
+        },
+
+        {
+            id: "9098cc29-5a53-4fc5-8e3c-a8088c0a12d9q",
+            from: "f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark2q",
+            to: "f3v2vtyk7ydf6jqglbknyvdbgfameloqhwpqsnfd56xcx36znqg5sq5q7dbtt72qmb2a77yvjzhbgmhn7ov6qa",
+            nonce: 0,
+            value: "100 FIL",
+            gasLimit: 7311518,
+            gasFeeCap: "101649",
+            gasPremium: "100595",
+            method: "Send",
+            state: 0,
+            exitCode: 0,
+            errInfo: "",
+            time: "2023-02-23 06:53:20",
+        },
+        {
+            id: "9098cc29-5a53-4fc5-8e3c-a8088c0a12v0w",
+            from: "f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark2q",
+            to: "f3v2vtyk7ydf6jqglbknyvdbgfameloqhwpqsnfd56xcx36znqg5sq5q7dbtt72qmb2a77yvjzhbgmhn7ov6qa",
+            nonce: 1,
+            value: "100 FIL",
+            gasLimit: 7311518,
+            gasFeeCap: 101649,
+            gasPremium: 100595,
+            method: "Send",
+            state: 1,
+            exitCode: 0,
+            errInfo: "",
+            time: "2023-02-23 06:53:20",
+        },
+        {
+            id: "38c8rcbf-ef0t-4952-b92a-de330d1b430de",
+            from: "f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark2q",
+            to: "f3v2vtyk7ydf6jqglbknyvdbgfameloqhwpqsnfd56xcx36znqg5sq5q7dbtt72qmb2a77yvjzhbgmhn7ov6qa",
+            nonce: 2,
+            value: "10000 FIL",
+            gasLimit: 0,
+            gasFeeCap: 0,
+            gasPremium: 0,
+            method: "Send",
+            state: 1,
+            exitCode: -1,
+            errInfo: "gas estimate: estimating gas limit: message execution failed: exit SysErrInsufficientFunds(6), reason: message failed with backtrace: --> caused by: send:: send-- sender does not have funds to transfer(balance 899.99999926389071059, transfer 10000.0)(5: insufficient funds) (RetCode = 6)",
+            time: "2023-03-03 02:47:07",
+        },
+        {
+            id: "9098cc29-5a53-4fc5-8e3c-a8088c0a1rd0r",
+            from: "f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark2q",
+            to: "f3v2vtyk7ydf6jqglbknyvdbgfameloqhwpqsnfd56xcx36znqg5sq5q7dbtt72qmb2a77yvjzhbgmhn7ov6qa",
+            nonce: 1,
+            value: "100 FIL",
+            gasLimit: 7311518,
+            gasFeeCap: 101649,
+            gasPremium: 100595,
+            method: "Send",
+            state: 2,
+            exitCode: 0,
+            errInfo: "",
+            time: "2023-02-23 06:53:20",
+        },
+        {
+            id: "9098cc29-5a53-4fc5-8e3c-a8088c0a12d0t",
+            from: "f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark2q",
+            to: "f3v2vtyk7ydf6jqglbknyvdbgfameloqhwpqsnfd56xcx36znqg5sq5q7dbtt72qmb2a77yvjzhbgmhn7ov6qa",
+            nonce: 1,
+            value: "100 FIL",
+            gasLimit: 7311518,
+            gasFeeCap: 101649,
+            gasPremium: 100595,
+            method: "Send",
+            state: 3,
+            exitCode: 0,
+            errInfo: "",
+            time: "2023-02-23 06:53:20",
+        },
+        {
+            id: "9098cc29-5a53-4fc5-8e3c-a808ic0a12d0t",
+            from: "f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark2q",
+            to: "f3v2vtyk7ydf6jqglbknyvdbgfameloqhwpqsnfd56xcx36znqg5sq5q7dbtt72qmb2a77yvjzhbgmhn7ov6qa",
+            nonce: 1,
+            value: "100 FIL",
+            gasLimit: 7311518,
+            gasFeeCap: 101649,
+            gasPremium: 100595,
+            method: "Send",
+            state: 3,
+            exitCode: -1,
+            errInfo: "",
+            time: "2023-02-23 06:53:20",
+        },
+        {
+            id: "38c8acbf-ef09-4952-b92a-de330d1b430dy",
+            from: "f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark2q",
+            to: "f3v2vtyk7ydf6jqglbknyvdbgfameloqhwpqsnfd56xcx36znqg5sq5q7dbtt72qmb2a77yvjzhbgmhn7ov6qa",
+            nonce: 2,
+            value: "10000 FIL",
+            gasLimit: 0,
+            gasFeeCap: 0,
+            gasPremium: 0,
+            method: "Init",
+            state: 4,
+            exitCode: -1,
+            errInfo: "gas estimate: estimating gas limit: message execution failed: exit SysErrInsufficientFunds(6), reason: message failed with backtrace: --> caused by: send:: send-- sender does not have funds to transfer(balance 899.99999926389071059, transfer 10000.0)(5: insufficient funds) (RetCode = 6)",
+            time: "2023-03-03 02:47:07",
+        },
+        {
+            id: "38c8acbf-ef0t-4952-b92a-de330d1b430du",
+            from: "f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark2q",
+            to: "f3v2vtyk7ydf6jqglbknyvdbgfameloqhwpqsnfd56xcx36znqg5sq5q7dbtt72qmb2a77yvjzhbgmhn7ov6qa",
+            nonce: 2,
+            value: "10000 FIL",
+            gasLimit: 0,
+            gasFeeCap: 0,
+            gasPremium: 0,
+            method: "Send",
+            state: 5,
+            exitCode: -1,
+            errInfo: "gas estimate: estimating gas limit: message execution failed: exit SysErrInsufficientFunds(6), reason: message failed with backtrace: --> caused by: send:: send-- sender does not have funds to transfer(balance 899.99999926389071059, transfer 10000.0)(5: insufficient funds) (RetCode = 6)",
+            time: "2023-03-03 02:47:07",
         }
     ],
-    'f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark5q': [],
+    'f3w7bx7wuvbqtkeitfvs352of6mpmi6ognjmck2d5sjjv2tpsygo3svnvbsut5twkafvhdnma5yuaumdnark5q': [
+
+    ],
 
 } 
