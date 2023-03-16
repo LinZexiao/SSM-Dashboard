@@ -1,10 +1,6 @@
 import { Layout as AntLayout, Space } from 'antd';
 import AppFooter from '@/component/footer';
 import AppHeader from '@/component/header';
-import Summary from '@/component/summary';
-import MsgList from '@/component/msgList';
-import SealingThreadList from '@/component/sealingThreadList';
-import DealList from '@/component/dealList';
 import { Outlet } from 'react-router-dom';
 
 
@@ -17,7 +13,6 @@ function Layout() {
 
     return (
         <div style={{
-            textAlign: 'center',
             verticalAlign: 'middle',
             height: '100vh',
         }}>

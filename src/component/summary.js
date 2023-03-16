@@ -43,7 +43,7 @@ export default function Summary(props) {
 
 
     return (
-        <div>
+        <div style={{ textAlign: 'center' }}>
             <Card
                 title={"Summary"}
             >

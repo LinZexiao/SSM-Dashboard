@@ -1,6 +1,7 @@
 import logo from '@/asset/venus-hero-logo.png'
-import { Col, Row, Modal, Select, Input, Affix, Descriptions } from 'antd';
+import { Col, Row, Select, Input, Affix, Descriptions } from 'antd';
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 const Search = Input.Search
 
 const tittleStyle = {
@@ -20,6 +21,8 @@ export default function Header(props) {
     const [affixed, setAffixed] = useState(false)
     const [searchResult, setSearchResult] = useState(nullSearchResult)
 
+    const navigate = useNavigate()
+
     const searchStyle = {
         verticalAlign: 'middle',
     }
@@ -30,10 +33,23 @@ export default function Header(props) {
     }
 
     const onSearch = value => {
-        const res = search(value)
-        if (res) {
-            res['key'] = value
-            setSearchResult(res)
+        let l = value.length
+        if (l === 0) {
+            return
+        } else if (l < 10) {
+            // miner address
+            navigate(`/miner/${value}`)
+        } else if (l < 55) {
+            // message id
+            navigate(`/message/${value}`)
+        } else if (l < 66) {
+            // deal cid
+            navigate(`/deal/${value}`)
+        } else if (l < 88) {
+            // wallet address
+            navigate(`/wallet/${value}`)
+        } else {
+            navigate(`/search/${value}`)
         }
     }
 
@@ -42,11 +58,13 @@ export default function Header(props) {
             <Row align="middle" >
                 <Col span={2} >
                     <div style={{ height: '64px' }} >
-                        <img src={logo} style={{ height: '64px' }} alt="Venus" />
+                        <Link to={'/'} >
+                            <img src={logo} style={{ height: '64px' }} alt="Venus" />
+                        </Link>
                     </div>
                 </Col>
                 <Col span={2} >
-                    <div style={tittleStyle}>SSM</div>
+                    <Link to={'/'} ><div style={tittleStyle}>  SSM </div> </Link>
                 </Col>
                 <Col offset={2} span={12} >
                     <Affix offsetTop={0} onChange={setAffixed}>
@@ -57,9 +75,7 @@ export default function Header(props) {
                     <Select size='small' defaultValue={"en"} options={[{ label: 'zh', value: 'zhCN' }, { label: 'en', value: 'enUS' }]} />
                 </Col>
             </Row>
-            <Modal width={'80vw'} title='Search Result' open={searchResult.key} footer={null} onCancel={() => setSearchResult(nullSearchResult)} >
-                <SearchResult data={searchResult} />
-            </Modal>
+
         </div>
     )
 }

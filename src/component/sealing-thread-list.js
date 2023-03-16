@@ -1,4 +1,4 @@
-import { Col, Empty, Row, Select, Table, Popover, Space, Button, Descriptions } from "antd"
+import { Col, Empty, Row, Select, Table, Popover, Space, Button, Descriptions, Modal } from "antd"
 import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { useState } from "react"
 import { Copyable, getDefaultFilters } from "./util";
@@ -111,13 +111,19 @@ export default function SealingThreadList({ threads }) {
         }
     }
 
+    const pagination = {
+        hideOnSinglePage: true,
+        showSizeChanger: true,
+        defaultPageSize: 10,
+    }
+
     const table = (
         <Table
             rowKey={record => record.wokerName + record.Index}
             rowSelection={rowSelection}
             columns={columns}
             dataSource={data}
-            pagination={false}
+            pagination={pagination}
             footer={footer}
         ></Table>
     )
@@ -131,6 +137,7 @@ const renderWoker = record => {
                 <Descriptions
                     title={record.wokerName}
                     bordered
+                    size="small"
                     column={1}
                 >
                     <Descriptions.Item label="Dest">{record.wokerInfo.Dest}</Descriptions.Item>
@@ -150,10 +157,22 @@ const renderWoker = record => {
 }
 
 const renderOperate = (record) => {
+    const stopThread = (worker, index) => {
+        Modal.confirm({
+            title: 'Stop Thread',
+            content: `Are you sure to stop thread ${index} of worker ${worker}?`,
+        })
+    }
+    const startThread = (worker, index) => {
+        Modal.confirm({
+            title: 'Resume Thread',
+            content: `Are you sure to Resume thread ${index} of worker ${worker}?`,
+        })
+    }
     if (record.Paused) {
         const errInfo = (<>
             <div>
-                <Descriptions title='Error Info' bordered column={1} >
+                <Descriptions title='Error Info' bordered column={1} size="small" >
                     <Descriptions.Item label="paused elapsed">{record.PausedElapsed}</Descriptions.Item>
                     <Descriptions.Item label="last error">{record.LastErr}</Descriptions.Item>
                 </Descriptions>
@@ -161,12 +180,12 @@ const renderOperate = (record) => {
         </>)
         return (
             <Popover overlayStyle={{ maxWidth: '80%' }} content={errInfo}>
-                <a href={`#/message/${record.id}`}><PlayCircleOutlined style={{ color: 'darkred' }} /></a>
+                <a><PlayCircleOutlined style={{ color: 'darkred' }} onClick={() => { startThread(record.wokerName, record.Index) }} /></a>
             </Popover>
         )
     } else {
         return (
-            <a href={`#/message/${record.id}`}><PauseCircleOutlined style={{ color: 'darkgreen' }} /></a>
+            <a><PauseCircleOutlined style={{ color: 'darkgreen' }} onClick={() => { stopThread(record.wokerName, record.Index) }} /></a>
         )
     }
 }
@@ -266,6 +285,92 @@ const wokers = [
             },
             {
                 "Index": 3,
+                "Loccation": "/mnt/mount/litao/t05114/test12",
+                "Plan": "sealer",
+                "SectorID": "s-t05114-17",
+                "Paused": true,
+                "PausedElapsed": "13h5m22s",
+                "State": "TicketAssigned",
+                "LastErr": "permanent:child process exited:pc1"
+            },
+
+            {
+
+                "Index": 4,
+                "Loccation": "/mnt/mount/litao/t05114/test11",
+                "Plan": "sealer",
+                "SectorID": "s-t05114-14",
+                "Paused": true,
+                "PausedElapsed": "13h5m22s",
+                "State": "TicketAssigned",
+                "LastErr": "permanent:child process exited:pc1"
+            },
+            {
+
+                "Index": 5,
+                "Loccation": "/mnt/mount/litao/t05114/test12",
+                "Plan": "sealer",
+                "SectorID": "s-t05114-16",
+                "Paused": true,
+                "PausedElapsed": "13h5m22s",
+                "State": "TicketAssigned",
+                "LastErr": "permanent:child process exited:pc1"
+            },
+            {
+                "Index": 6,
+                "Loccation": "/mnt/mount/litao/t05114/test11",
+                "Plan": "sealer",
+                "SectorID": "s-t05114-15",
+                "Paused": true,
+                "PausedElapsed": "13h5m22s",
+                "State": "TicketAssigned",
+                "LastErr": "permanent:child process exited:pc1"
+            },
+            {
+                "Index": 7,
+                "Loccation": "/mnt/mount/litao/t05114/test12",
+                "Plan": "sealer",
+                "SectorID": "s-t05114-17",
+                "Paused": true,
+                "PausedElapsed": "13h5m22s",
+                "State": "TicketAssigned",
+                "LastErr": "permanent:child process exited:pc1"
+            },
+
+            {
+
+                "Index": 8,
+                "Loccation": "/mnt/mount/litao/t05114/test11",
+                "Plan": "sealer",
+                "SectorID": "s-t05114-14",
+                "Paused": true,
+                "PausedElapsed": "13h5m22s",
+                "State": "TicketAssigned",
+                "LastErr": "permanent:child process exited:pc1"
+            },
+            {
+
+                "Index": 9,
+                "Loccation": "/mnt/mount/litao/t05114/test12",
+                "Plan": "sealer",
+                "SectorID": "s-t05114-16",
+                "Paused": true,
+                "PausedElapsed": "13h5m22s",
+                "State": "TicketAssigned",
+                "LastErr": "permanent:child process exited:pc1"
+            },
+            {
+                "Index": 10,
+                "Loccation": "/mnt/mount/litao/t05114/test11",
+                "Plan": "sealer",
+                "SectorID": "s-t05114-15",
+                "Paused": true,
+                "PausedElapsed": "13h5m22s",
+                "State": "TicketAssigned",
+                "LastErr": "permanent:child process exited:pc1"
+            },
+            {
+                "Index": 11,
                 "Loccation": "/mnt/mount/litao/t05114/test12",
                 "Plan": "sealer",
                 "SectorID": "s-t05114-17",
