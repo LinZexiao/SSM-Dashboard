@@ -1,7 +1,7 @@
 import { Col, Row, Table, Popover, Space, Descriptions } from "antd"
 import { InfoCircleOutlined, FormOutlined } from '@ant-design/icons';
 import { useState } from "react"
-import { getDefaultFilters, InShort, inShort } from "./util";
+import { getDefaultFilters, InShort } from "./util";
 import Card from "./card";
 
 export default function DealList(props) {
