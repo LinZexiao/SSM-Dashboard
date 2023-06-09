@@ -72,10 +72,9 @@ export default function Header(props) {
                     </Affix>
                 </Col>
                 <Col offset={4} span={2} >
-                    <Select size='small' defaultValue={"en"} options={[{ label: 'zh', value: 'zhCN' }, { label: 'en', value: 'enUS' }]} />
+                    <Select size='small' defaultValue={"en"} options={[{ label: 'en', value: 'enUS' }]} />
                 </Col>
             </Row>
-
         </div>
     )
 }
@@ -188,10 +187,6 @@ const SearchResult = (props) => {
             </>
         )
     }
-
-
-
-
 
     switch (data.type) {
         case 'message':
